@@ -29,9 +29,11 @@
                                         <form action="/tweet/" method="post">
                                             {% csrf_token %}
                                             <div class="form-group mb-2">
-                                                <textarea class="form-control" style="resize: none" name='my-content' id="my-content"></textarea>
+                                                <textarea class="form-control" style="resize: none" name='my-content'
+                                                          id="my-content"></textarea>
                                             </div>
-                                            <button type="submit" class="btn btn-primary" style="float:right;">작성하기</button>
+                                            <button type="submit" class="btn btn-primary" style="float:right;">작성하기
+                                            </button>
                                         </form>
                                         </p>
                                     </div>
@@ -43,26 +45,38 @@
                 <hr>
                 <!-- 작성 된 글이 나오는 곳 -->
                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="media">
-                                    <div class="media-body">
-                                        <h5 class="mt-0">Media heading</h5>
-                                        <p>Will you do the same for me? It's time to face the music I'm no longer your
-                                            muse.
-                                            Heard it's
-                                            beautiful, be the judge and my girls gonna take a vote. I can feel a phoenix
-                                            inside
-                                            of me.
-                                            Heaven is
-                                            jealous of our love, angels are crying from up above. Yeah, you take me to
-                                            utopia.</p>
+                    {% for tw in tweet %}
+                        <div class="col-md-12 mb-2">
+                            <div class="card">
+                                <div class="card-body">
+                                    {# 만약 로그인 되어 있는 유저와 작성자가 같다면 삭제 버튼을 보여줄거다 #}
+                                    {% if tw.author == user %}
+                                        <div style="text-align: right">
+                                            <a href="/tweet/delete/{{ tw.id }}">
+                                                <span class="badge rounded-pill bg-danger">삭제</span>
+                                            </a>
+                                        </div>
+                                        {# 작성자와 사용자가 다르다면 [보기] 버튼만 보여줄 것이다 #}
+                                    {% endif %}
+                                    <div style="text-align: right">
+                                        <a href="#">
+                                            <span class="badge rounded-pill bg-success">보기</span>
+                                        </a>
+                                    </div>
+                                    <div class="media">
+                                        <div class="media-body">
+                                            <h5 class="mt-0">{{ tw.content }}</h5>
+                                        </div>
+                                        <div style="text-align: right">
+                                            {# tw.author 유저 정보 전채 중에 .username만 출력#}
+                                            {# tw.created_at을 가지고 와서 timesince만 출력 #}
+                                            <span style="font-size: small">{{ tw.author.username }}-{{ tw.created_at|timesince }} 전</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    {% endfor %}
                 </div>
 
             </div>
