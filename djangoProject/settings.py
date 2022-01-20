@@ -124,3 +124,5 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# 기본적인 사용자 모델을 바꾸겠다. user.UserModel 이걸로 사용하겠다
+AUTH_USER_MODEL = 'user.UserModel'
