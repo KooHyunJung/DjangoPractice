@@ -12,3 +12,16 @@ class TweetModel(models.Model):
     content = models.CharField(max_length=256)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+#======================= models에 내용 추가하고 꼭 터미널에 명령어 작성 실행 ==================================#
+#======================= python manage.py makemigrations ==================================#
+#======================= python manage.py migrate ==================================#
+
+class TweetComment(models.Model):
+    class Meta:
+        db_table = 'comment'
+    tweet = models.ForeignKey(TweetModel, on_delete=models.CASCADE)
+    author = models.ForeignKey(UserModel, on_delete=models.CASCADE)
+    comment = models.CharField(max_length=256)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
