@@ -52,7 +52,16 @@
                 </li>
             </ul>
            {% else %} {# 로그인했으면 아래를 보여줘#}
-                {{ user.username }} 님 반갑습니다!!!
+               <ul class="navbar-nav mr-auto">
+                    <li class="nav-item disabled">
+                       <span class="nav-link">
+                           {{ user.username }}님 반갑습니다!
+                       </span>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/logout"> logout </a>
+                    </li>
+               </ul>
             {% endif %}
         </form>
     </div>

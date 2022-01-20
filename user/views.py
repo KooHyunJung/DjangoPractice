@@ -5,6 +5,7 @@ from django.http import HttpResponse
 # 사용자가 데이터베이스 안에 있는지 확인하는 함수
 from django.contrib.auth import get_user_model
 from django.contrib import auth
+from django.contrib.auth.decorators import login_required
 
 # 여기는 api 통신을 받고 기능이 실제로 움직이는 곳이다.
 # Create your views here.
@@ -52,3 +53,9 @@ def sign_in_view(request):
             return redirect('/')
         else:
             return render(request, 'user/signin.html')
+
+# @login_required : 사용자가 꼭 로그인 되어 있어야 접근 가능하다는 함수
+@login_required
+def logout(request):
+    auth.logout(request)
+    return redirect('/')
