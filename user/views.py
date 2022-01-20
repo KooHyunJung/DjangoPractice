@@ -10,7 +10,11 @@ from django.contrib import auth
 # Create your views here.
 def sign_up_view(request):
     if request.method == 'GET':
-        return render(request, 'user/signup.html')
+        user = request.user.is_authenticated
+        if user:
+            return redirect('/')
+        else:
+            return render(request, 'user/signup.html')
     elif request.method == 'POST':
         # 데이터를 가지고 온다
         username = request.POST.get('username', None)
@@ -43,4 +47,8 @@ def sign_in_view(request):
             return redirect('/sign-in') # 로그인 실패하면 다시 화면을 보여준다
 
     elif request.method == 'GET':
-        return render(request, 'user/signin.html')
+        user = request.user.is_authenticated
+        if user:
+            return redirect('/')
+        else:
+            return render(request, 'user/signin.html')
