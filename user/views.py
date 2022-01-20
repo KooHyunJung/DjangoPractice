@@ -38,7 +38,7 @@ def sign_in_view(request):
         me = auth.authenticate(request, username=username, password=password)
         if me is not None:
             auth.login(request, me)
-            return HttpResponse(f"{me.username}님 로그인 성공")
+            return redirect('/')
         else:
             return redirect('/sign-in') # 로그인 실패하면 다시 화면을 보여준다
 
