@@ -4,6 +4,7 @@ from .models import UserModel
 from django.http import HttpResponse
 # 사용자가 데이터베이스 안에 있는지 확인하는 함수
 from django.contrib.auth import get_user_model
+from django.contrib import auth
 
 # 여기는 api 통신을 받고 기능이 실제로 움직이는 곳이다.
 # Create your views here.
@@ -34,10 +35,10 @@ def sign_in_view(request):
         username = request.POST.get('username', None)
         password = request.POST.get('password', None)
 
-        me = UserModel.objects.get(username=username) # DB와 연결된 UserModel에서 어떤 데이터를 가지고 올 것인가?
-        if me.password == password:
-            request.session['user'] = me.username # session = 사용자 정보를 저장할 수 있는 공간
-            return HttpResponse(f"{username}님 로그인 성공")
+        me = auth.authenticate(request, username=username, password=password)
+        if me is not None:
+            auth.login(request, me)
+            return HttpResponse(f"{me.username}님 로그인 성공")
         else:
             return redirect('/sign-in') # 로그인 실패하면 다시 화면을 보여준다
 
