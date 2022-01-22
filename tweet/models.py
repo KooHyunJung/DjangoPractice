@@ -1,7 +1,8 @@
 # tweet/models.py
 from django.db import models
 from user.models import UserModel
-
+# 태깃 모듈을 사욜할 수 있다.
+from taggit.managers import TaggableManager
 
 # Create your models here.
 class TweetModel(models.Model):
@@ -10,6 +11,7 @@ class TweetModel(models.Model):
     # ForeignKey : 내가 다른 정보를 가지고 와서 여기에 넣겠다
     author = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     content = models.CharField(max_length=256)
+    tags = TaggableManager(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

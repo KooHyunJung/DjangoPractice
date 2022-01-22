@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
@@ -27,9 +26,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
-# 앱을 생성하면 이곳에 앱을 추가해야 장고가 알아 듣는다
+# 앱을 생성하면 이곳에 앱 또는 패키지를 추가해야 장고가 알아 듣는다
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,7 +38,13 @@ INSTALLED_APPS = [
     'tweet',
     'user',
     'cooking',
+    'taggit.apps.TaggitAppConfig',
+    'taggit_templatetags2',
 ]
+# 태깃 패키지 사용할 시 꼭 작성하기
+TAGGIT_CASE_INSENSITIVE = True
+TAGGIT_LIMIT = 50
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -73,7 +77,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'djangoProject.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 # DB 연결하는 곳
@@ -83,7 +86,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -103,7 +105,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
@@ -114,7 +115,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
