@@ -30,10 +30,11 @@
         }
     </style>
 </head>
-<body>
+{% load static %}
+<body style="background:url('{% static '20171118-006.jpeg' %}')">
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-        <a class="navbar-brand" href="/">SpartaSNS</a>
+        <a class="navbar-brand" href="/">AhlongSNS</a>
         {#  로그인할 때만 친구 목록이 보이게 진자로 설정해 준다  #}
         {% if user.is_authenticated %}
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
