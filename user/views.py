@@ -18,18 +18,22 @@ def sign_up_view(request):
             return render(request, 'user/signup.html')
     elif request.method == 'POST':
         # 데이터를 가지고 온다
-        username = request.POST.get('username', None)
-        password = request.POST.get('password', None)
-        password2 = request.POST.get('password2', None)
-        bio = request.POST.get('bio', None)
+        username = request.POST.get('username', '')
+        password = request.POST.get('password', '')
+        password2 = request.POST.get('password2', '')
+        bio = request.POST.get('bio', '')
         # password 확인
         if password != password2:
-            return render(request, 'user/signup.html')
+            # 비번이 같지 않을 때 알람 띄우기
+            return render(request, 'user/signup.html', {'error':'패스워드 서로 다릅니다!'})
         else:
+            if username == '' or password == '':
+                return render(request, 'user/signup.html', {'error': '사용자이름/ 비밀번호를 입력해주세요!'})
             exist_user = get_user_model().objects.filter(username=username)
             # 중복 확인
             if exist_user:
-                return render(request, 'user/signup.html')  # 사용자가 존재하기 때문에 사용자를 저장하지 않고 회원가입 페이지를 다시 띄움
+                # 사용자가 존재하기 때문에 사용자를 저장하지 않고 회원가입 페이지를 다시 띄움
+                return render(request, 'user/signup.html', {'error': f'{username} 이미 사용 중입니다'})
             else:
                 UserModel.objects.create_user(username=username, password=password, bio=bio)
                 return redirect('/sign-in')
@@ -37,15 +41,16 @@ def sign_up_view(request):
 
 def sign_in_view(request):
     if request.method == 'POST':
-        username = request.POST.get('username', None)
-        password = request.POST.get('password', None)
+        username = request.POST.get('username', '')
+        password = request.POST.get('password', '')
 
         me = auth.authenticate(request, username=username, password=password)
         if me is not None:
             auth.login(request, me)
             return redirect('/')
         else:
-            return redirect('/sign-in') # 로그인 실패하면 다시 화면을 보여준다
+            # 로그인 실패하면 다시 화면을 보여준다
+            return render(request, 'user/signin.html', {'error': '이름 또는 패스워드를 확인해주세요!'})
 
     elif request.method == 'GET':
         user = request.user.is_authenticated
