@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 # 매가 가지고 있는 모델 중에 유저 모델을 가지고 오겠다
 from .models import UserModel
-from django.http import HttpResponse
 # 사용자가 데이터베이스 안에 있는지 확인하는 함수
 from django.contrib.auth import get_user_model
 from django.contrib import auth

@@ -1,0 +1,6 @@
+asgiref==3.4.1
+Django==4.0.1
+django-classy-tags==2.0.0
+django-taggit @ git+https://github.com/jazzband/django-taggit.git@9d9ca4b36a09ec7b4cb0c823be9f90ff2089701e
+django-taggit-templatetags2==1.6.1
+sqlparse==0.4.2
