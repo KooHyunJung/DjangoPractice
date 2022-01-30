@@ -5,6 +5,7 @@ from .models import UserModel
 from django.contrib.auth import get_user_model
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
+import re
 
 # 여기는 api 통신을 받고 기능이 실제로 움직이는 곳이다.
 # Create your views here.
@@ -16,49 +17,56 @@ def sign_up_view(request):
         else:
             return render(request, 'user/signup.html')
     elif request.method == 'POST':
-        # 데이터를 가지고 온다
+        email = request.POST.get('email', '')
         username = request.POST.get('username', '')
         password = request.POST.get('password', '')
         password2 = request.POST.get('password2', '')
         bio = request.POST.get('bio', '')
-        # password 확인
-        if password != password2:
-            # 비번이 같지 않을 때 알람 띄우기
-            return render(request, 'user/signup.html', {'error':'패스워드 서로 다릅니다!'})
+
+        if email == '' or username == '' or password == '':
+            return render(request, 'user/signup.html', {'error': '빈 칸에 내용을 입력해 주세요!'})
         else:
-            if username == '' or password == '':
-                return render(request, 'user/signup.html', {'error': '사용자이름/ 비밀번호를 입력해주세요!'})
+            if not(6 < len(password) < 21):
+                return render(request, 'user/signup.html', {'error': 'password 길이는 7~20자 입니다.'})
+            elif re.search('[0-9]+', password) is None or re.search('[a-zA-Z]+', password) is None:
+                return render(request, 'user/signup.html', {'error': 'password 형식은 영문,숫자 포함 7~20자 입니다.'})
+            elif password != password2:
+                return render(request, 'user/signup.html', {'error': 'password 확인 해 주세요!'})
+            if re.search('[0-9]+', username) is None or re.search('[a-zA-Z]+', username) is None:
+                return render(request, 'user/signup.html', {'error': 'nickname에 영문,숫자는 필수입니다.'})
+
             exist_user = get_user_model().objects.filter(username=username)
-            # 중복 확인
-            if exist_user:
-                # 사용자가 존재하기 때문에 사용자를 저장하지 않고 회원가입 페이지를 다시 띄움
-                return render(request, 'user/signup.html', {'error': f'{username} 이미 사용 중입니다'})
+            exist_email = get_user_model().objects.filter(email=email)
+
+            if exist_email:
+                return render(request, 'user/signup.html', {'error': '이미 사용 중인 email입니다.'})
+            elif exist_user:
+                return render(request, 'user/signup.html', {'error': '이미 사용 중인 nickname입니다.'})
             else:
-                UserModel.objects.create_user(username=username, password=password, bio=bio)
+                UserModel.objects.create_user(email=email, username=username, password=password, bio=bio)
                 return redirect('/sign-in')
 
 
 def sign_in_view(request):
-    if request.method == 'POST':
-        username = request.POST.get('username', '')
-        password = request.POST.get('password', '')
-
-        me = auth.authenticate(request, username=username, password=password)
-        if me is not None:
-            auth.login(request, me)
-            return redirect('/')
-        else:
-            # 로그인 실패하면 다시 화면을 보여준다
-            return render(request, 'user/signin.html', {'error': '이름 또는 패스워드를 확인해주세요!'})
-
-    elif request.method == 'GET':
+    if request.method == 'GET':
         user = request.user.is_authenticated
         if user:
             return redirect('/')
         else:
             return render(request, 'user/signin.html')
+    elif request.method == 'POST':
+        username = request.POST.get('username', '')
+        password = request.POST.get('password', '')
 
-# @login_required : 사용자가 꼭 로그인 되어 있어야 접근 가능하다는 함수
+        true_user = auth.authenticate(request, username=username, password=password)
+        if true_user is not None:
+            auth.login(request, true_user)
+            return redirect('/')
+        else:
+            return render(request, 'user/signin.html', {'error': ' nicknam 또는 패스워드를 확인해주세요!'})
+
+
+# @login_required : 사용자가 꼭 로그인 되어 있어야 접근 가능한 함수
 @login_required
 def logout(request):
     auth.logout(request)
