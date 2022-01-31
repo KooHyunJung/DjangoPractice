@@ -132,5 +132,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # 기본적인 사용자 모델을 바꾸겠다. user.UserModel 이걸로 사용하겠다
 AUTH_USER_MODEL = 'user.UserModel'
 
+
 # 비번 리셋 이메일을 보내기 위한 설정
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# gmail과의 통신하는 포트
+EMAIL_PORT = '587'
+# Email 전송 # 메일을 호스트하는 서버
+EMAIL_HOST = 'smtp.gmail.com'
+# 발신할 이메일
+EMAIL_HOST_USER = 'mommyson1010@gmail.com'
+# 발신할 메일의 비밀번호
+EMAIL_HOST_PASSWORD = 'mommyson5959!@'
+# TLS 보안 방법
+EMAIL_USE_TLS = True
+# 사이트와 관련한 자동응답을 받을 이메일 주소
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
