@@ -40,10 +40,14 @@ INSTALLED_APPS = [
     'cooking',
     'taggit.apps.TaggitAppConfig',
     'taggit_templatetags2',
+    'crispy_forms',
 ]
 # 태깃 패키지 사용할 시 꼭 작성하기
 TAGGIT_CASE_INSENSITIVE = True
 TAGGIT_LIMIT = 50
+
+# Very Bottom of Settings
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
 MIDDLEWARE = [
@@ -147,3 +151,4 @@ EMAIL_HOST_PASSWORD = 'mommyson5959!@'
 EMAIL_USE_TLS = True
 # 사이트와 관련한 자동응답을 받을 이메일 주소
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
