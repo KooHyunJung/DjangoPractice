@@ -131,3 +131,6 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # 기본적인 사용자 모델을 바꾸겠다. user.UserModel 이걸로 사용하겠다
 AUTH_USER_MODEL = 'user.UserModel'
+
+# 비번 리셋 이메일을 보내기 위한 설정
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
