@@ -1,5 +1,7 @@
-const btn = document.querySelector("#btn-toggle");
+if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    document.documentElement.classList.add("dark")
+}
 
-    btn.addEventListener("click", function () {
-        document.body.classList.toggle("dark-theme");
-    });
+document.getElementById("toggleTheme").addEventListener("click",() => {
+  document.documentElement.classList.toggle("dark")
+})
