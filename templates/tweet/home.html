@@ -11,7 +11,9 @@
                     <div class="card-body">
                         <h5 class="card-title"> {{ user.username }} </h5>
                         <p class="card-text"> {{ user.bio }} </p>
-
+                        <a href="/edit/{{ user.id }}">
+                            <span class="badge rounded-pill bg-success">편집</span>
+                        </a>
                     </div>
                 </div>
             </div>

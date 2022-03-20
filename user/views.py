@@ -7,8 +7,12 @@ from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 import re
 
+from .forms import CustomUserChangeForm
+
 # 여기는 api 통신을 받고 기능이 실제로 움직이는 곳이다.
 # Create your views here.
+
+
 def sign_up_view(request):
     if request.method == 'GET':
         user = request.user.is_authenticated
@@ -96,3 +100,19 @@ def user_follow(request, id):
     else:
         click_user.followee.add(request.user)
     return redirect('/user')
+
+
+# 프로필(email, bio) update
+@login_required(login_url='signin')
+def edit(request, pk):
+    if request.method == 'POST':
+        form = CustomUserChangeForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+    else:
+        form = CustomUserChangeForm(instance=request.user)
+    context = {
+        'form': form
+    }
+    return render(request, 'tweet/edit.html', context)

@@ -10,6 +10,10 @@ urlpatterns = [
     path('user/', views.user_view, name='user-list'),
     path('user/follow/<int:id>/', views.user_follow, name='user-follow'),
 
+    path('edit/<int:pk>', views.edit, name='edit'),
+
+    #=============== 장고 인증 URL + 템플릿 연결 ================#
+    # 장고 인증 URL 넘어가기 위한 버튼 연결
     path('accounts/login/', views.accounts_login, name='accounts-login'),
     path('password_reset/', auth_views.PasswordResetView.as_view(template_name='password/password_reset.html'), name='password_reset'),
     path('password_reset_done/', auth_views.PasswordResetDoneView.as_view(template_name='password/password_reset_done.html'),

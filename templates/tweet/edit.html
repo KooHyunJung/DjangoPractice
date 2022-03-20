@@ -1,0 +1,23 @@
+{#{% extends 'base.html' %}#}
+{##}
+{#{% block content %}#}
+{##}
+{#    <form method="POST">#}
+{#        {% csrf_token %}#}
+{#        <input name="bio" value="{{ article.bio }}">#}
+{#        <button type="submit">글쓰기</button>#}
+{#    </form>#}
+{##}
+{#{% endblock %}#}
+
+
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+{% block content %}
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{ form | crispy }}
+        <button class="btn btn-primary">수정</button>
+    </form>
+{% endblock %}

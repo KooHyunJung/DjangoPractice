@@ -138,7 +138,7 @@ AUTH_USER_MODEL = 'user.UserModel'
 
 
 # 비번 리셋 이메일을 보내기 위한 설정
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # gmail과의 통신하는 포트
 EMAIL_PORT = '587'
 # Email 전송 # 메일을 호스트하는 서버
