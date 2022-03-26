@@ -9,6 +9,7 @@
             <div class="col-md-3">
                 <div class="card">
                     <div class="card-body">
+                        <img src="{{ user.image }}" class="card-img-top" alt="image">
                         <h5 class="card-title"> {{ user.username }} </h5>
                         <p class="card-text"> {{ user.bio }} </p>
                         <a href="/edit/{{ user.id }}">

@@ -1,4 +1,3 @@
-# user 앱의 모든 url을 관리해 준다
 from django.contrib.auth import views as auth_views
 from django.urls import path
 from . import views
@@ -11,6 +10,7 @@ urlpatterns = [
     path('user/follow/<int:id>/', views.user_follow, name='user-follow'),
 
     path('edit/<int:pk>', views.edit, name='edit'),
+    path('password/', views.password, name='password'),
 
     #=============== 장고 인증 URL + 템플릿 연결 ================#
     # 장고 인증 URL 넘어가기 위한 버튼 연결

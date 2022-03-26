@@ -1,7 +1,17 @@
+import json
+import uuid
+
+import boto3
+from datetime import datetime
+
+from django.core.files.uploadedfile import UploadedFile
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 # 매가 가지고 있는 모델 중에 유저 모델을 가지고 오겠다
+from django.views.decorators.http import require_POST
+
 from .models import UserModel
-# 사용자가 데이터베이스 안에 있는지 확인하는 함수
+# 사용자가 데이터베이스 안에 있는지 확인 하는 함수
 from django.contrib.auth import get_user_model
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
@@ -41,13 +51,14 @@ def sign_up_view(request):
 
             exist_user = get_user_model().objects.filter(username=username)
             exist_email = get_user_model().objects.filter(email=email)
+            image = "https://littledeep.com/wp-content/uploads/2019/04/littledeep_nightsky_sns-1024x551.png"
 
             if exist_email:
                 return render(request, 'user/signup.html', {'error': '이미 사용 중인 email입니다.'})
             elif exist_user:
                 return render(request, 'user/signup.html', {'error': '이미 사용 중인 nickname입니다.'})
             else:
-                UserModel.objects.create_user(email=email, username=username, password=password, bio=bio)
+                UserModel.objects.create_user(email=email, username=username, password=password, bio=bio, image=image)
                 return redirect('/sign-in')
 
 
@@ -86,7 +97,7 @@ def accounts_login(request):
 @login_required
 def user_view(request):
     if request.method == 'GET':
-        # 사용자를 불러오기, exclude와 request.user.username 를 사용해서 '로그인 한 사용자'를 제외하기
+        # 사용자 불러오기, exclude와 request.user.username 를 사용해서 '로그인 한 사용자'를 제외하기
         user_list = UserModel.objects.all().exclude(username=request.user.username)
         return render(request, 'user/user_list.html', {'user_list': user_list})
 
@@ -102,12 +113,15 @@ def user_follow(request, id):
     return redirect('/user')
 
 
-# 프로필(email, bio) update
+# 프로필(email, bio, image) update
 @login_required(login_url='signin')
 def edit(request, pk):
     if request.method == 'POST':
         form = CustomUserChangeForm(request.POST, instance=request.user)
         if form.is_valid():
+            form.email = request.POST['email']
+            form.bio = request.POST['bio']
+            form.image = request.POST['image']
             form.save()
             return redirect('/')
     else:
@@ -116,3 +130,9 @@ def edit(request, pk):
         'form': form
     }
     return render(request, 'tweet/edit.html', context)
+
+
+# 프로필 편집 페이지 /password_reset/ url 연결
+def password(request):
+    return redirect('/password_reset/')
+

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'taggit.apps.TaggitAppConfig',
     'taggit_templatetags2',
     'crispy_forms',
+    'storages',
 ]
 # 태깃 패키지 사용할 시 꼭 작성하기
 TAGGIT_CASE_INSENSITIVE = True
